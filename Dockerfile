@@ -87,7 +87,7 @@ COPY build/config/extra /etc/nginx/extra
 COPY build/config/nginx.conf /etc/nginx/nginx.conf
 COPY build/config/mime.types /etc/nginx/mime.types
 COPY build/config/fpm-pool.conf /etc/php7/php-fpm.d/www.conf
-COPY build/config/php.ini /etc/php7/conf.d/php-custom.ini
+COPY build/config/php.ini /etc/php7/php.ini
 COPY build/config/supervisor.conf /etc/supervisor/conf.d/supervisord.conf
 
 # Create the document root and a place for PHP logs
@@ -104,7 +104,8 @@ RUN chown -R nobody: /var/www/code && \
 # USER nobody
 
 # Set the working directory
-WORKDIR /var/w
+WORKDIR /var/www/code
+
 # Export the open port - change to ':80' if needed
 EXPOSE 8080
 
