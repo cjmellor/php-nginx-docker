@@ -24,6 +24,7 @@ ENV DISPLAY_ERRORS="On" \
     MAX_FILE_UPLOADS="20" \
     MEMORY_LIMIT="-1" \
     POST_MAX_SIZE=50M \
+    SHORT_OPEN_TAG="Off" \
     UPLOAD_MAX_FILESIZE=50M
 
 # Update the APK packages and install some basic essentials and NGINX and PHP-FPM and all it's extensions
@@ -103,11 +104,7 @@ RUN chown -R nobody: /var/www/code && \
 # USER nobody
 
 # Set the working directory
-WORKDIR /var/www/code
-
-# Move code into the document root
-COPY build/code /var/www/code
-
+WORKDIR /var/w
 # Export the open port - change to ':80' if needed
 EXPOSE 8080
 
