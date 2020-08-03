@@ -3,7 +3,28 @@ FROM alpine:3.12
 # A better place to retrieve the PHP extensions from
 ADD https://dl.bintray.com/php-alpine/key/php-alpine.rsa.pub /etc/apk/keys/php-alpine.rsa.pub
 RUN apk --update add ca-certificates && \
-    echo "https://dl.bintray.com/php-alpine/v3.10/php-7.3" >> /etc/apk/repositories
+    echo "https://dl.bintray.com/php-alpine/v3.11/php-7.3" >> /etc/apk/repositories
+
+# Environment variables for the PHP-FPM Pool config (WWW)
+ENV EMERGENCY_RESTART_INTERVAL=1m \
+    EMERGENCY_RESTART_THRESHOLD="10" \
+    ERROR_LOG=/dev/stderr \
+    LISTEN=127.0.0.1:9000 \
+    PM_MAX_CHILDREN="100" \
+    PM_MAX_REQUESTS="1000" \
+    PM_MAX_SPARE_SERVERS="15" \
+    PM_MIN_SPARE_SERVERS="5" \
+    PM_START_SERVERS="10" \
+    PROCESS_CONTROL_TIMEOUT=5m \
+    USER=nobody
+
+# Environment variables for the PHP.ini config
+ENV DISPLAY_ERRORS="On" \
+    ERROR_REPORTING="E_ALL & ~E_DEPRECATED" \
+    MAX_FILE_UPLOADS="20" \
+    MEMORY_LIMIT="-1" \
+    POST_MAX_SIZE=50M \
+    UPLOAD_MAX_FILESIZE=50M
 
 # Update the APK packages and install some basic essentials and NGINX and PHP-FPM and all it's extensions
 RUN apk update && \
@@ -78,8 +99,8 @@ RUN chown -R nobody: /var/www/code && \
     chown -R nobody: /var/lib/nginx && \
     chown -R nobody: /var/log/nginx
 
-# Switch to use a non-root user from here on
-#USER nobody
+# Switch to use a non-root user from here on - only use if you don't want to use 'root'
+# USER nobody
 
 # Set the working directory
 WORKDIR /var/www/code
@@ -87,7 +108,7 @@ WORKDIR /var/www/code
 # Move code into the document root
 COPY build/code /var/www/code
 
-# Export the open port
+# Export the open port - change to ':80' if needed
 EXPOSE 8080
 
 # Start NGINX and PHP-FPM via Supervisor
