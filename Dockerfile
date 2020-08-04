@@ -21,6 +21,7 @@ ENV EMERGENCY_RESTART_INTERVAL=1m \
 # Environment variables for the PHP.ini config
 ENV DISPLAY_ERRORS="On" \
     ERROR_REPORTING="E_ALL & ~E_DEPRECATED" \
+    MAX_EXECUTION_TIME="5" \
     MAX_FILE_UPLOADS="20" \
     MEMORY_LIMIT="-1" \
     POST_MAX_SIZE=50M \
@@ -104,10 +105,10 @@ RUN chown -R nobody: /var/www/code && \
 # USER nobody
 
 # Set the working directory
-WORKDIR /var/www/code
+#WORKDIR /var/www/code
 
 # Export the open port - change to ':80' if needed
-EXPOSE 8080
+EXPOSE 80
 
 # Start NGINX and PHP-FPM via Supervisor
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
