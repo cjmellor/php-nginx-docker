@@ -69,6 +69,7 @@ RUN apk update && \
         php-posix \
         php-redis \
         php-session \
+        php-simplexml \
         php-soap \
         php-sockets \
         php-sodium \
