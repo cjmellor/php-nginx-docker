@@ -45,6 +45,7 @@ RUN apk update && \
         php-curl \
         php-dom \
         php-exif \
+        php-fileinfo \
         php-fpm \
         php-ftp \
         php-gd \
@@ -74,10 +75,12 @@ RUN apk update && \
         php-sockets \
         php-sodium \
         php-sqlite3 \
+        php-tokenizer \
         php-xml \
         php-xmlreader \
         php-xmlrpc \
         php-xsl \
+        php-xmlwriter \
         php-zip \
         supervisor \
         vim \
